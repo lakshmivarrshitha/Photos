@@ -1,5 +1,6 @@
 package com.app.photos.view;
 
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,35 +9,39 @@ import android.os.Bundle;
 import android.widget.GridView;
 
 import com.app.photos.photos.R;
+import com.app.photos.presenter.GalleryPresenter;
+import com.app.photos.presenter.GalleryPresenterImpl;
 import com.app.photos.view.adapter.GridViewAdapter;
 import com.app.photos.model.vo.ImageItem;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GalleryView {
 
     private GridView gridView;
     private GridViewAdapter gridAdapter;
+    private GalleryPresenter presenter;
+    private static MainActivity mApp = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApp = this;
         setContentView(R.layout.activity_main);
         gridView = (GridView) findViewById(R.id.gridView);
-        gridAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, getData());
+        presenter = new GalleryPresenterImpl();
+        presenter.setView(this);
+        presenter.loadData();
+    }
+
+    @Override
+    public void displayItems(ArrayList<ImageItem> items) {
+        gridAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, items);
         gridView.setAdapter(gridAdapter);
     }
 
-    /**
-     * Prepare some dummy data for gridview
-     */
-    private ArrayList<ImageItem> getData() {
-        final ArrayList<ImageItem> imageItems = new ArrayList<>();
-        TypedArray imgs = getResources().obtainTypedArray(R.array.image_ids);
-        for (int i = 0; i < imgs.length(); i++) {
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), imgs.getResourceId(i, -1));
-            imageItems.add(new ImageItem(bitmap, "Image#" + i));
-        }
-        return imageItems;
+    public static Context context()
+    {
+        return mApp.getApplicationContext();
     }
 }
