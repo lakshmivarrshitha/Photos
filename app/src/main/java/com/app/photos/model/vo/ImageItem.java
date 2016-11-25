@@ -1,4 +1,4 @@
-package com.app.photos.photos.model.vo;
+package com.app.photos.model.vo;
 
 import android.graphics.Bitmap;
 

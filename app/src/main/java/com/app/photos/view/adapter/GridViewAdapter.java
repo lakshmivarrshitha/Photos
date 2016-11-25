@@ -1,4 +1,4 @@
-package com.app.photos.photos.model.adapter;
+package com.app.photos.view.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.photos.photos.R;
-import com.app.photos.photos.model.vo.ImageItem;
+import com.app.photos.model.vo.ImageItem;
 
 import java.util.ArrayList;
 

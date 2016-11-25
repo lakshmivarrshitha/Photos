@@ -1,4 +1,4 @@
-package com.app.photos.photos;
+package com.app.photos.view;
 
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -7,8 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.GridView;
 
-import com.app.photos.photos.model.adapter.GridViewAdapter;
-import com.app.photos.photos.model.vo.ImageItem;
+import com.app.photos.photos.R;
+import com.app.photos.view.adapter.GridViewAdapter;
+import com.app.photos.model.vo.ImageItem;
 
 import java.util.ArrayList;
 
