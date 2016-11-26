@@ -9,5 +9,5 @@ import java.util.ArrayList;
  */
 
 public interface DataModel {
-    public ArrayList<ImageItem> getData();
+    public void getData();
 }

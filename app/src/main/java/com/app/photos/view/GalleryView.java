@@ -10,4 +10,7 @@ import java.util.ArrayList;
 
 public interface GalleryView {
     public void displayItems(ArrayList<ImageItem> items);
+    public void showPreloader();
+    public void hidePreloader();
+    public void showError(String message);
 }
