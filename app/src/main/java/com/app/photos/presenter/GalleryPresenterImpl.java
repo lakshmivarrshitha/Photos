@@ -2,6 +2,7 @@ package com.app.photos.presenter;
 
 import com.app.photos.model.DataListener;
 import com.app.photos.model.DataModel;
+import com.app.photos.model.service.FlickrService;
 import com.app.photos.model.service.LocalDataService;
 import com.app.photos.model.vo.ImageItem;
 import com.app.photos.view.GalleryView;
@@ -26,7 +27,7 @@ public class GalleryPresenterImpl implements GalleryPresenter,DataListener {
     @Override
     public void setView(GalleryView view) {
         galleryView = view;
-        dataModel = new LocalDataService(this);
+        dataModel = new FlickrService(this);
     }
 
     @Override
@@ -38,5 +39,6 @@ public class GalleryPresenterImpl implements GalleryPresenter,DataListener {
     @Override
     public void onErrorCallback(String message) {
         galleryView.hidePreloader();
+        galleryView.showError(message);
     }
 }

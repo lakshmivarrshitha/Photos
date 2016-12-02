@@ -1,10 +1,13 @@
 package com.app.photos.view;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements GalleryView {
     private GalleryPresenter presenter;
     private static MainActivity mApp = null;
     private ProgressBar spinner;
+    private AlertDialog alert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements GalleryView {
 
         // Initially spinner should be hidden
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
-        spinner.setVisibility(View.GONE);
+        spinner.setVisibility(View.INVISIBLE);
 
         gridView = (GridView) findViewById(R.id.gridView);
         presenter = new GalleryPresenterImpl();
@@ -51,19 +55,41 @@ public class MainActivity extends AppCompatActivity implements GalleryView {
 
     @Override
     public void showPreloader() {
-        spinner.setVisibility(View.VISIBLE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                spinner.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
     public void hidePreloader() {
-        spinner.setVisibility(View.GONE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                spinner.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
-    public void showError(String message) {
-
+    public void showError(final String message) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Error")
+                        .setMessage(message)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+            }
+        });
     }
-
     public static Context context()
     {
         return mApp.getApplicationContext();
